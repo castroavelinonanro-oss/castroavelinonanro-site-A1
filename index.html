@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurante Castro</title>
+    <style>
+        :root {
+            --vermelho-principal: #c41e3a;
+            --vermelho-escuro: #8b0000;
+            --vermelho-claro: #ff6b6b;
+            --dourado: #daa520;
+            --branco: #ffffff;
+            --preto: #333333;
+            --cinza-claro: #f5f5f5;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--cinza-claro);
+            color: var(--preto);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(to right, var(--vermelho-escuro), var(--vermelho-principal));
+            color: var(--branco);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            color: var(--dourado);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: var(--branco);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--dourado);
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: var(--branco);
+            text-align: center;
+            padding: 6rem 1rem;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--vermelho-principal);
+            color: var(--branco);
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: var(--vermelho-escuro);
+        }
+        
+        section {
+            padding: 4rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--vermelho-principal);
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            display: block;
+            width: 70px;
+            height: 3px;
+            background-color: var(--dourado);
+            margin: 0.5rem auto;
+        }
+        
+        .menu-categories {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .category-btn {
+            background-color: var(--branco);
+            border: 2px solid var(--vermelho-principal);
+            color: var(--vermelho-principal);
+            padding: 0.5rem 1.2rem;
+            margin: 0 0.5rem 0.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .category-btn.active, .category-btn:hover {
+            background-color: var(--vermelho-principal);
+            color: var(--branco);
+        }
+        
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .menu-item {
+            background-color: var(--branco);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .menu-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .menu-item-content {
+            padding: 1.5rem;
+        }
+        
+        .menu-item h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--vermelho-principal);
+        }
+        
+        .menu-item p {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .menu-item-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .price {
+            font-weight: bold;
+            color: var(--vermelho-principal);
+            font-size: 1.2rem;
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--vermelho-principal);
+        }
+        
+        .about-image img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .contact-card {
+            background-color: var(--branco);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .contact-card i {
+            font-size: 2rem;
+            color: var(--vermelho-principal);
+            margin-bottom: 1rem;
+        }
+        
+        footer {
+            background-color: var(--preto);
+            color: var(--branco);
+            padding: 3rem 0 1.5rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--dourado);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-column ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--dourado);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #444;
+            border-radius: 50%;
+            color: var(--branco);
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--vermelho-principal);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid #444;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 0.5rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    Restaurante   <span>Castro</span>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#inicio">Início</a></li>
+                        <li><a href="#menu">Menu</a></li>
+                        <li><a href="#sobre">Sobre</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero" id="inicio">
+        <div class="container">
+            <h1>Sabores Autênticos de Moçambique</h1>
+            <p>Descubra a riqueza da gastronomia moçambicana no Restaurante Castro, onde cada prato conta uma história de tradição e sabor.</p>
+            <a href="#menu" class="btn">Ver Menu</a>
+        </div>
+    </section>
+
+    <section id="menu">
+        <div class="container">
+            <div class="section-title">
+                <h2>O Nosso Menu</h2>
+            </div>
+            
+            <div class="menu-categories">
+                <button class="category-btn active" data-category="todos">Todos</button>
+                
+            </div>
+            
+            <div class="menu-items">
+                <div class="menu-item" data-category="pratos-principais">
+                    <img src="https://img.freepik.com/fotos-premium/bife-de-alcatra-com-batatas-fritas_538646-9505.jpg">
+                    <div class="menu-item-content">
+                        <h3>Bife de alcatra com batatas fritas</h3>
+                        <p>Bife de alcatra com batatas fritas com melhor gosto.</p>
+                        <div class="menu-item-price">
+                            <span class="price">300 MZN</span>
+                            <button class="btn">Pedir</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-item" data-category="pratos-principais">
+                    <img src="https://i.pinimg.com/originals/7a/33/0d/7a330d4a63f952a90e1d286a083a7047.jpg" alt="Xima com peixe Seco">
+                    <div class="menu-item-content">
+                        <h3>Xima com peixe Seco</h3>
+                        <p>Peixe seco frito c/molho de tomate e xima.</p>
+                        <div class="menu-item-price">
+                            <span class="price">260 MZN</span>
+                            <button class="btn">Pedir</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-item" data-category="mariscos">
+                    <img src="https://saude.abril.com.br/wp-content/uploads/2022/06/nutricao-comida-brasileiro-prato.png?w=414&h=280&crop=1" alt="Arroz com feijão">
+                    <div class="menu-item-content">
+                        <h3>Arroz com feijão</h3>
+                        <p>Arroz com feijão no melhor gosto.</p>
+                        <div class="menu-item-price">
+                            <span class="price">250 MZN</span>
+                            <button class="btn">Pedir</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-item" data-category="mariscos">
+                    <img src="https://gomesdacosta.com.br/wp-content/uploads/2017/04/pizza-de-atum-defumado-alho-poro-e-parmesao-mobile.jpg" alt="Caril de Caranguejo">
+                    <div class="menu-item-content">
+                        <h3>Pizza de atum</h3>
+                        <p>Pizza de Atum Defumado, Alho Poró.</p>
+                        <div class="menu-item-price">
+                            <span class="price">600 MZN</span>
+                            <button class="btn">Pedir</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-item" data-category="acompanhamentos">
+                    <img src="https://asset.skoiy.com/gta2554ejcwslaya/t4uqi6r0nkht.jpg?w=1852&q=80" alt="Xima">
+                    <div class="menu-item-content">
+                        <h3>Esparguete com atum</h3>
+                        <p>Esparguete com atum com melhor tempero.</p>
+                        <div class="menu-item-price">
+                            <span class="price">120 MZN</span>
+                            <button class="btn">Pedir</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-item" data-category="acompanhamentos">
+                    <img src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Arroz de Coco">
+                    <div class="menu-item-content">
+                        <h3>Arroz de Coco</h3>
+                        <p>Arroz cozido com leite de coco, dando um sabor único e cremoso.</p>
+                        <div class="menu-item-price">
+                            <span class="price">150 MZN</span>
+                            <button class="btn">Pedir</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-item" data-category="bebidas">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIDqvL2xqGVJOG2GExYtBQwUJaycRt_700Y10oCAGTTwRJKGo-JG7Ii2Us&s=10" alt="Sumo de Manga">
+                    <div class="menu-item-content">
+                        <h3>Sumo de Manga Natural</h3>
+                        <p>Sumo fresco de manga, preparado na hora com frutas selecionadas.</p>
+                        <div class="menu-item-price">
+                            <span class="price">100 MZN</span>
+                            <button class="btn">Pedir</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-item" data-category="bebidas">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6gGg-WvMps67W8aDghNj77D4oG_ArsijDXjpNz__WEw&s=10.jpg" alt="Cerveja Tipo Savana">
+                    <div class="menu-item-content">
+                        <h3>Cerveja Savana</h3>
+                        <p>Cerveja clara refrescante, perfeita para acompanhar pratos picantes.</p>
+                        <div class="menu-item-price">
+                            <span class="price">110 MZN</span>
+                            <button class="btn">Pedir</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="sobre">
+        <div class="container">
+            <div class="section-title">
+                <h2>Sobre Nós</h2>
+            </div>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Uma História de Sabores Moçambicanos</h3>
+                    <p>O Restaurante Castro nasceu da paixão pela rica gastronomia de Moçambique. Fundado em 2020, temos orgulho em oferecer pratos autênticos que celebram a diversidade cultural do nosso país.</p>
+                    <p>Nossa cozinha é liderada pelo Chef Miller Monapo, que viajou por todas as províncias de Moçambique para aprender receitas tradicionais e técnicas ancestrais de preparo.</p>
+                    <p>Utilizamos apenas ingredientes frescos e locais, trabalhando diretamente com pescadores, agricultores e produtores moçambicanos para garantir a qualidade e autenticidade dos nossos pratos.</p>
+                    <p>Venha experimentar uma verdadeira viagem gastronómica por Moçambique no Restaurante Castro!</p>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Interior do Restaurante">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto">
+        <div class="container">
+            <div class="section-title">
+                <h2>Contacto</h2>
+            </div>
+            
+            <div class="contact-info">
+                <div class="contact-card">
+                    <i></i>
+                    <h3>Elementos do Grupo A1</h3>
+<p>Ancha Rui Carlos Manuel n-8</p>
+<p>Armando Celestino mussa n-11</p>
+<p>Benercio Antônio Marrima n-13</p>
+<p>Castro Avelino Nanro n-15</p>
+<p>Edelson De Amaral Romão n- 24</p>
+<p>Miro Essilamo n- 48</p>
+<p>Inácio ussene n-38</p>
+<p>Zito Momade ussene n-64</p>
+<p>Mouzinho Moisés n-67</p>
+<p>Rábia Momade Mário Poina n-55</p>
+                          </div>
+
+<div class="contact-info">
+                <div class="contact-card">
+                    <i></i>
+                    <h3>Localização</h3>
+                    <p>Avenida 25 de Setembro, nº 512<br>Monapo, Moçambique</p>
+                </div>
+                
+                <div class="contact-card">
+                    <i></i>
+                    <h3>Telefone</h3>
+                    <p>+(258)863780233<br>+(258)849554869</p>
+                </div>
+                
+                <div class="contact-card">
+                    <i></i>
+                    <h3>Horário</h3>
+                    <p>Segunda a Sábado: 11h00 - 23h00<br>Domingo: 12h00 - 22h00</p>
+                </div>
+                
+                <div class="contact-card">
+                    <i>✉️</i>
+                    <h3>Email</h3>
+                    <p>castroavelinonanro@gmail.com<br></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Restaurante Castro</h3>
+                    <p>Sabores autênticos de Moçambique no coração de Monapo. Celebrando a rica gastronomia do nosso país desde 2020.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Links Rápidos</h3>
+                    <ul>
+                        <li><a href="#inicio">Início</a></li>
+                        <li><a href="#menu">Menu</a></li>
+                        <li><a href="#sobre">Sobre Nós</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Horário de Funcionamento</h3>
+                    <ul>
+                        <li>Segunda a Sábado: 11h00 - 23h00</li>
+                        <li>Domingo: 12h00 - 22h00</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Siga-nos</h3>
+                    <div class="social-links">
+                        <a href="#">FB</a>
+                        <a href="#">IG</a>
+                        <a href="#">TW</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Restaurante Castro. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Filtro de categorias do menu
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            const menuItems = document.querySelectorAll('.menu-item');
+            
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove a classe active de todos os botões
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Adiciona a classe active ao botão clicado
+                    this.classList.add('active');
+                    
+                    const category = this.getAttribute('data-category');
+                    
+                    // Filtra os itens do menu
+                    menuItems.forEach(item => {
+                        if (category === 'todos' || item.getAttribute('data-category') === category) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Botões de pedido
+            const orderButtons = document.querySelectorAll('.menu-item .btn');
+            orderButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const menuItem = this.closest('.menu-item');
+                    const itemName = menuItem.querySelector('h3').textContent;
+                    const itemPrice = menuItem.querySelector('.price').textContent;
+                    
+                    alert(`Adicionado ao carrinho: ${itemName} - ${itemPrice}`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
